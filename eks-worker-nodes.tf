@@ -43,7 +43,7 @@ resource "aws_eks_node_group" "primary_ng" {
   node_group_name = "test"
   node_role_arn   = aws_iam_role.worker_node.arn
   subnet_ids      = aws_subnet.public[*].id
-  instance_types  = ["t2.micro"]
+  instance_types  = [var.instance_types]
 
   scaling_config {
     desired_size = 3

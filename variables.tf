@@ -1,6 +1,6 @@
 variable "aws_region" {
   type    = string
-  default = "us-east-1"
+  default = "us-east-2"
 }
 variable "cluster_name" {
   type    = string
@@ -42,4 +42,12 @@ variable "common" {
     ssl_port     = 443
     protocol     = "tcp"
   }
+}
+variable "instance_types" {
+  type    = string
+  default = "c5.xlarge"
+}
+
+locals {
+  account_id = data.aws_caller_identity.current.account_id
 }

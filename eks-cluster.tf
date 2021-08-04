@@ -49,8 +49,8 @@ resource "aws_security_group" "cluster_sg" {
 }
 
 resource "aws_security_group_rule" "cluster_sg_ingress" {
-  cidr_blocks       = [local.workstation-external-cidr]
-  description       = "Allow workstation to communicate with the cluster API Server"
+  cidr_blocks       = ["0.0.0.0/0"]
+  description       = "Allow to communicate with the cluster API Server"
   from_port         = var.common.ssl_port
   protocol          = var.common.protocol
   security_group_id = aws_security_group.cluster_sg.id
@@ -68,7 +68,7 @@ resource "aws_eks_cluster" "main" {
     security_group_ids = [aws_security_group.cluster_sg.id]
     subnet_ids         = aws_subnet.public[*].id
   }
-  tags = var.common_tags
+  tags = merge(var.common_tags, { Account = local.account_id })
   depends_on = [
     aws_iam_role_policy_attachment.kube_cluster_AmazonEKSClusterPolicy,
     aws_iam_role_policy_attachment.kube_cluster_AmazonEKSVPCResourceController,
